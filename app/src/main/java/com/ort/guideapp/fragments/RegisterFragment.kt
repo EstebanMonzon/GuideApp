@@ -1,0 +1,125 @@
+package com.ort.guideapp.fragments
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.ort.guideapp.R
+import com.ort.guideapp.entities.UserRepository
+
+class RegisterFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = RegisterFragment()
+    }
+
+    /*___________________________________ attributes ___________________________________*/
+    private lateinit var firebaseAuth: FirebaseAuth
+    lateinit var userRepository: UserRepository
+    private lateinit var viewModel: RegisterViewModel
+    lateinit var v: View
+
+    lateinit var userEmailText: EditText
+    lateinit var userPassText: EditText
+    lateinit var userPassConfirmText: EditText
+    lateinit var buttonRegister: Button
+    lateinit var userNombreText: EditText
+    lateinit var userApellidoText: EditText
+    lateinit var userPersonTelefono: EditText
+    lateinit var userImgText : EditText
+
+    /*___________________________________ onCreateView ___________________________________*/
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        v = inflater.inflate(R.layout.fragment_register, container, false)
+        firebaseAuth = Firebase.auth
+        userRepository = UserRepository()
+        userEmailText = v.findViewById(R.id.userEmailRegister)
+        userPassText = v.findViewById(R.id.userPassRegister)
+        userPassConfirmText = v.findViewById(R.id.userPassConfirmRegister)
+        buttonRegister = v.findViewById(R.id.btnRegisterEnter)
+        userNombreText= v.findViewById(R.id.userPersonName)
+        userApellidoText= v.findViewById(R.id.userPersonApellido)
+        userPersonTelefono= v.findViewById(R.id.userPersonTelefono)
+        //userImgText= v.findViewById(R.id.userProfilePhoto)
+        return v
+    }
+
+    /*___________________________________ onStart ___________________________________*/
+    override fun onStart() {
+        super.onStart()
+
+        buttonRegister.setOnClickListener{
+            if(checkAllFields()){
+                crearCuenta(userNombreText.text.toString(), userApellidoText.text.toString(), userPersonTelefono.text.toString(),
+                    userEmailText.text.toString(), userPassText.text.toString())
+                //TODO agregar una imagen pre-seteada a userImgText= v.findViewById(R.id.userProfilePhoto), usar glide
+            }
+        }
+    }
+
+    /*___________________________________ onActivityCreated ___________________________________*/
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        // TODO: Use the ViewModel
+    }
+
+    /*___________________________________ createAccount ___________________________________*/
+    private fun crearCuenta(nombre: String, apellido: String, telefono: String, email: String, password: String) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
+            if(task.isSuccessful) {
+                val action = RegisterFragmentDirections.actionRegisterFragmentToRegisteredOkFragment2()
+                val user = Firebase.auth.currentUser
+                user?.let {
+                    userRepository.crearCuenta(it.uid, nombre, apellido, telefono, email, password)
+                }
+                findNavController().navigate(action)
+            }
+        }
+    }
+
+    /*___________________________________ checkAllFields ___________________________________*/
+    private fun checkAllFields(): Boolean {
+        if (userNombreText.length() == 0) {
+            Snackbar.make(v, "El nombre no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if (userApellidoText.length() == 0) {
+            Snackbar.make(v, "El apellido no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if (userPersonTelefono.length() == 0) {
+            Snackbar.make(v, "El telefono no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if (userEmailText.length() == 0) {
+            Snackbar.make(v, "El email no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if (userPassText.length() == 0) {
+            Snackbar.make(v, "El password no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if(userPassConfirmText.length() == 0) {
+            Snackbar.make(v, "El password no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if(!userPassText.text.toString().equals(userPassConfirmText.text.toString())) {
+            Snackbar.make(v, "Error: Las contraseñas no coinciden", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+}
