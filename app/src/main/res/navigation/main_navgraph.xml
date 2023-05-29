@@ -23,15 +23,12 @@
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_registerFragment_to_menuActivity"
-            app:destination="@id/menuActivity" />
-        <action
             android:id="@+id/action_registerFragment_to_registeredOkFragment2"
             app:destination="@id/registeredOkFragment" />
     </fragment>
     <activity
         android:id="@+id/menuActivity"
-        android:name="com.ort.guideapp.MenuActivity"
+        android:name="com.ort.guideapp.activities.MenuActivity"
         android:label="activity_menu"
         tools:layout="@layout/activity_menu" />
     <fragment

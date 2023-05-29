@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_navgraph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ort.guideapp.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_activitiesListFragment"
+            app:destination="@id/activitiesListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_activityDetailFragment"
+            app:destination="@id/activityDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.ort.guideapp.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_personalDataFragment"
+            app:destination="@id/personalDataFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_avatarSelectionFragment"
+            app:destination="@id/avatarSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalDataFragment"
+        android:name="com.ort.guideapp.fragments.PersonalDataFragment"
+        android:label="fragment_personal_data"
+        tools:layout="@layout/fragment_personal_data" />
+    <fragment
+        android:id="@+id/activitiesListFragment"
+        android:name="com.ort.guideapp.fragments.ActivitiesListFragment"
+        android:label="fragment_activities_list"
+        tools:layout="@layout/fragment_activities_list" >
+        <action
+            android:id="@+id/action_activitiesListFragment_to_activityDetailFragment"
+            app:destination="@id/activityDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityDetailFragment"
+        android:name="com.ort.guideapp.fragments.ActivityDetailFragment"
+        android:label="fragment_activity_detail"
+        tools:layout="@layout/fragment_activity_detail" >
+        <argument
+            android:name="activity"
+            app:argType="com.ort.guideapp.entities.Activity" />
+    </fragment>
+    <fragment
+        android:id="@+id/avatarSelectionFragment"
+        android:name="com.ort.guideapp.fragments.AvatarSelectionFragment"
+        android:label="fragment_avatar_selection"
+        tools:layout="@layout/fragment_avatar_selection" >
+        <action
+            android:id="@+id/action_avatarSelectionFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+</navigation>
