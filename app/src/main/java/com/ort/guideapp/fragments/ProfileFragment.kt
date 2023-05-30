@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ort.guideapp.R
+import com.ort.guideapp.entities.GuideRepository
 import com.ort.guideapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,10 +26,9 @@ class ProfileFragment : Fragment() {
         fun newInstance() = ProfileFragment()
     }
 
-    /*___________________________________ attributes ___________________________________*/
     private lateinit var viewModel: ProfileViewModel
     lateinit var v : View
-    lateinit var userRepository: UserRepository
+    lateinit var guideRepository: GuideRepository
     private val user = Firebase.auth.currentUser
     private val userId = user!!.uid
     lateinit var textName: TextView
@@ -36,7 +36,6 @@ class ProfileFragment : Fragment() {
     lateinit var buttonProfilePicture : Button
     lateinit var imgAvatar: ImageView
 
-    /*___________________________________ onCreateView ___________________________________*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,20 +45,19 @@ class ProfileFragment : Fragment() {
         buttonPersonalData = v.findViewById(R.id.btnEditarDatos)
         buttonProfilePicture = v.findViewById(R.id.btnEditarFoto)
         imgAvatar = v.findViewById(R.id.imgAvatar)
-        userRepository = UserRepository()
+        guideRepository = GuideRepository()
         return v
     }
 
-    /*___________________________________ onStart ___________________________________*/
     override fun onStart() {
         super.onStart()
 
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
-            textName.text = "${userRepository.getUserName(userId)}"
+            textName.text = "${guideRepository.getGuideName(userId)}"
 
             Glide.with(v)
-                .load(getImage("${userRepository.getUserAvatar(userId)}"))
+                .load(getImage("${guideRepository.getUserAvatar(userId)}"))
                 .circleCrop()
                 .override(500,500)
                 .into(imgAvatar)
@@ -76,12 +74,10 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    /*___________________________________ getImage ___________________________________*/
     fun getImage(imageName: String?): Int {
         return resources.getIdentifier(imageName, "drawable", getActivity()?.getPackageName() ?: "TourismApp")
     }
 
-    /*___________________________________ onActivityCreated ___________________________________*/
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)

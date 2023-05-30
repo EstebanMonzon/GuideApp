@@ -9,25 +9,23 @@ data class Guide(
     var name: String = "",
     var lastname: String = "",
     var email: String = "",
+    var password: String = "",
     var telefono: String = "",
     var city: String = "",
-    var province: String = "",
-    var country: String = "",
-    var guidePhoto : String = "",
+    var profilePhoto : String = "",
     var rate : Int = 0,
     var activitiesOwnedList: MutableList<String> = mutableListOf()
     ) : Parcelable {
-        constructor() : this("","","", "","","","","","",0, mutableListOf())
+        constructor() : this("","", "", "","","","","",0, mutableListOf())
         init {
             this.uid = uid
             this.name = name
             this.lastname = lastname
             this.telefono = telefono
             this.email = email
+            this.password = password
             this.city = city
-            this.province = province
-            this.country = country
-            this.guidePhoto = guidePhoto
+            this.profilePhoto = profilePhoto
             this.rate = rate
             this.activitiesOwnedList = activitiesOwnedList
         }

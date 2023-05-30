@@ -8,12 +8,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.ort.guideapp.R
 import com.ort.guideapp.entities.GuideRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 class ActivityDetailFragment : Fragment() {
 
@@ -21,7 +18,6 @@ class ActivityDetailFragment : Fragment() {
         fun newInstance() = ActivityDetailFragment()
     }
 
-    /*___________________________________ attributes ___________________________________*/
     private lateinit var viewModel: ActivityDetailViewModel
     lateinit var v: View
     lateinit var guideRepository: GuideRepository
@@ -30,9 +26,9 @@ class ActivityDetailFragment : Fragment() {
     lateinit var textCity: TextView
     lateinit var textDesc: TextView
     lateinit var textRate: TextView
-    lateinit var btnActivityContact : Button
+    lateinit var btnActivityModificar : Button
+    lateinit var btnActivityBorrar : Button
 
-    /*___________________________________ onCreateView ___________________________________*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,11 +38,12 @@ class ActivityDetailFragment : Fragment() {
         textCity = v.findViewById(R.id.txtCity)
         textDesc = v.findViewById(R.id.txtActivityDesc)
         textRate = v.findViewById(R.id.textRate)
-        btnActivityContact = v.findViewById(R.id.btnActivityContact)
+        btnActivityModificar = v.findViewById(R.id.btnActivityModificar)
+        btnActivityBorrar = v.findViewById(R.id.btnActivityBorrar)
         guideRepository = GuideRepository()
         return v
     }
-    /*___________________________________ onStart ___________________________________*/
+
     override fun onStart() {
         super.onStart()
         val activity = ActivityDetailFragmentArgs.fromBundle(requireArguments()).activity
@@ -58,9 +55,17 @@ class ActivityDetailFragment : Fragment() {
         textCity.text = city
         textDesc.text = description
         textRate.text = rate.toString()
+
+        //TODO logica para modificar una actividad de la lista de actividades
+        btnActivityModificar.setOnClickListener(){
+
+        }
+        //TODO logica para borrar una actividad de la lista de actividades y de la lista de actividades de un guia
+        btnActivityBorrar.setOnClickListener(){
+
+        }
     }
 
-    /*___________________________________ onActivityCreated ___________________________________*/
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ActivityDetailViewModel::class.java)

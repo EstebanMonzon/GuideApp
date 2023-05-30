@@ -7,24 +7,16 @@
     android:layout_height="match_parent"
     android:layout_margin="20dp"
     android:orientation="vertical"
-    tools:context=".fragments.RegisterFragment">
+    tools:context=".fragments.ActivityEditFragment">
 
     <TextView
-        android:id="@+id/txtRegister"
+        android:id="@+id/txtActivityRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Registrate"
-        android:textAlignment="center"
-        android:textSize="34sp" />
-
-    <TextView
-        android:id="@+id/txtSubtitulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Es facil y rápido"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:text="Editar Actividad"
+        android:textAlignment="textStart"
+        android:textSize="24sp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -42,132 +34,126 @@
             android:paddingRight="20dp"
             android:paddingBottom="10dp">
 
-            <!-- Nombre -->
+            <!-- Title -->
             <TextView
-                android:id="@+id/txtNombreRegister"
+                android:id="@+id/txtActivityTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre"
+                android:text="Titulo"
                 android:textColor="@color/gris_secundario" />
 
             <EditText
-                android:id="@+id/userPersonName"
+                android:id="@+id/activityTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/naranja"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textColor="@color/black" />
-            <!-- Apellido -->
+            <!-- City -->
             <TextView
-                android:id="@+id/txtApellidoRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Apellido"
-                android:textColor="@color/gris_secundario" />
-
-            <EditText
-                android:id="@+id/userPersonApellido"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/naranja"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:textColor="@color/black" />
-            <!-- Telefono -->
-            <TextView
-                android:id="@+id/txtTelefonoRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Telefono"
-                android:textColor="@color/gris_secundario" />
-
-            <EditText
-                android:id="@+id/userPersonTelefono"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/naranja"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:textColor="@color/black" />
-            <!-- Telefono -->
-            <TextView
-                android:id="@+id/txtCityRegister"
+                android:id="@+id/txtActivityCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ciudad"
                 android:textColor="@color/gris_secundario" />
 
             <EditText
-                android:id="@+id/userPersonCity"
+                android:id="@+id/activityCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/naranja"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textColor="@color/black" />
-            <!-- Email -->
+            <!-- Province -->
             <TextView
-                android:id="@+id/txtEmailRegister"
+                android:id="@+id/txtActivityProvince"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Email"
+                android:text="Provincia"
                 android:textColor="@color/gris_secundario" />
 
             <EditText
-                android:id="@+id/userEmailRegister"
+                android:id="@+id/activityProvince"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/naranja"
                 android:ems="10"
-                android:inputType="textEmailAddress"
+                android:inputType="textPersonName"
                 android:textColor="@color/black" />
-            <!-- Contraseña -->
+            <!-- Country -->
             <TextView
-                android:id="@+id/txtPassRegister"
+                android:id="@+id/txtActivityCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Contraseña"
+                android:text="Pais"
                 android:textColor="@color/gris_secundario" />
 
             <EditText
-                android:id="@+id/userPassRegister"
+                android:id="@+id/activityCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/naranja"
                 android:ems="10"
-                android:inputType="textPassword"
-                android:textColor="@color/black"/>
-            <!-- Confirmar contraseña -->
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
+            <!-- Descripcion -->
             <TextView
-                android:id="@+id/txtPassConfirmRegister"
+                android:id="@+id/txtActivityDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Confirmar contraseña"
+                android:text="Descripción"
                 android:textColor="@color/gris_secundario" />
 
             <EditText
-                android:id="@+id/userPassConfirmRegister"
+                android:id="@+id/activityDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
+            <!-- Latitude -->
+            <TextView
+                android:id="@+id/txtActivityLat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Latitud"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/activityLat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
+            <!-- Longitud -->
+            <TextView
+                android:id="@+id/txtActivityLong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Longitud"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/activityLong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/naranja"
                 android:ems="10"
-                android:inputType="textPassword"
-                android:textColor="@color/black"/>
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
 
             <Button
-                android:id="@+id/btnRegisterEnter"
+                android:id="@+id/btnActividadGuardar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#EE8146"
-                android:text="Registrarse" />
-
-
+                android:text="Guardar" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>

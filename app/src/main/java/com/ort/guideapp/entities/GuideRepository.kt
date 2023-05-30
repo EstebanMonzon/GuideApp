@@ -1,7 +1,9 @@
 package com.ort.guideapp.entities
 
+import android.content.ContentValues
 import android.util.Log
-import com.google.firebase.firestore.Query
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.ort.guideapp.database.FirebaseSingleton
 import kotlinx.coroutines.tasks.await
 
@@ -11,36 +13,12 @@ class GuideRepository () {
     private var guideList: MutableList<Guide> = mutableListOf()
     var activityRepository = ActivityRepository()
 
-    suspend fun getHomeGuideList(): MutableList<Guide> {
-        val guideList = mutableListOf<Guide>()
-        try{
-            val data = guiasCollection
-                .orderBy("rate", Query.Direction.DESCENDING)
-                .limit(2)
-                .get().await()
-            for(document in data){
-                guideList.add(document.toObject(Guide::class.java))
-            }
-        } catch (e: Exception){
-            Log.d("Actividades no cargadas: ", guideList.size.toString())
-        }
-        return guideList
+    suspend fun getGuideName(userId: String): String {
+        return guiasCollection.document(userId).get().await().get("name").toString()
     }
 
-    suspend fun getAllGuides(): MutableList<Guide>{
-        try{
-            val data = database.collection("guias")
-                .orderBy("rate", Query.Direction.DESCENDING)
-                .get().await()
-            if (data != null) {
-                for (document in data) {
-                    guideList.add(document.toObject(Guide::class.java))
-                }
-            }
-        } catch (e: Exception){
-            Log.d("Guias no cargados: ", guideList.size.toString())
-        }
-        return guideList
+    suspend fun getUserAvatar(userId: String): String {
+        return guiasCollection.document(userId).get().await().get("profilePhoto").toString()
     }
 
     suspend fun getGuide(guideId: String): Guide {
@@ -55,6 +33,10 @@ class GuideRepository () {
             Log.d("Guia no fue cargados: ", "error de carga de guia")
         }
         return guide
+    }
+
+    suspend fun getGuideData(userId: String): Guide {
+        return guiasCollection.document(userId).get().await().toObject(Guide::class.java)!!
     }
 
     suspend fun getAllActivitiesGuide(guideId: String): MutableList<Activity> {
@@ -73,14 +55,50 @@ class GuideRepository () {
         } catch (e: Exception){
             Log.d("Actividades de guia no fueron cargadas: ", "error de carga de actividades")
         }
-
         return activitiesGuideList
     }
 
-    /*fun addGuide(){
-        var guide = Guide("", "Maria", "Freire", "mf@g.com", "CABA", "Buenos Aires",
-            "Argentina", "URL Foto", 8, mutableListOf())
+    fun crearCuenta(uid: String, nombre: String, apellido: String, telefono: String, email: String, password: String, city: String) {
+        guiasCollection.document(uid!!)
+            .set(Guide(uid, nombre, apellido, telefono, email, password, city, "foto", 7, mutableListOf())) //TODO falta agregar la foto de perfil aca
+            .addOnSuccessListener { documentReference ->
+                Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${uid}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(ContentValues.TAG, "Error adding document", e)
+            }
 
-        database.collection("guias").document().set(guide)
-    }*/
+    }
+
+    fun updateGuide(nombre: String, apellido: String, telefono: String, guide: Guide){
+        guiasCollection.document(guide.uid)
+            .update(mapOf("name" to nombre, "lastname" to apellido, "telefono" to telefono))
+            .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
+            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+
+    }
+
+    fun updatePassword(userPassNew: String, guide: Guide) {
+        Firebase.auth.currentUser!!.updatePassword(userPassNew)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    guiasCollection.document(guide.uid)
+                        .update(mapOf("password" to userPassNew))
+                        .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
+                        .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+                    Log.d(ContentValues.TAG, "User password updated.")
+                }
+            }
+            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+    }
+
+    fun updateAvatar(avatarId: String, guide: Guide)
+    {
+        guiasCollection.document(guide.uid)
+            .update(mapOf("profilePhoto" to avatarId))
+            .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
+            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+    }
+
+
 }
