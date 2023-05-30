@@ -53,7 +53,6 @@
                 android:textColor="@color/black"
                 app:iconPadding="0dp" />
 
-            <!-- TODO conectar con la funcionalidad y el fragment-->
             <Button
                 android:id="@+id/btnEditarFoto"
                 android:layout_width="match_parent"

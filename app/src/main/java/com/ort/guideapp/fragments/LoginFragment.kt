@@ -22,7 +22,6 @@ class LoginFragment : Fragment() {
         fun newInstance() = LoginFragment()
     }
 
-    /*___________________________________ attributes ___________________________________*/
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
     private lateinit var viewModel: LoginViewModel
@@ -37,7 +36,6 @@ class LoginFragment : Fragment() {
     lateinit var labelAccount : TextView
     lateinit var buttonRegister : Button
 
-    /*___________________________________ onCreateView ___________________________________*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,7 +55,6 @@ class LoginFragment : Fragment() {
         return v
     }
 
-    /*___________________________________ onStart ___________________________________*/
     override fun onStart() {
         super.onStart()
         buttonLogin.setOnClickListener {
@@ -70,14 +67,12 @@ class LoginFragment : Fragment() {
         }
     }
 
-    /*___________________________________ onActivityCreated ___________________________________*/
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
-    /*___________________________________ Login ___________________________________*/
     private fun login(email: String, password: String) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
             if (task.isSuccessful) {
