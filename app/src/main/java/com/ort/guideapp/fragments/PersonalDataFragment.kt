@@ -9,12 +9,11 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ort.guideapp.R
-import com.ort.guideapp.entities.User
-import com.ort.guideapp.entities.UserRepository
+import com.ort.guideapp.entities.Guide
+import com.ort.guideapp.entities.GuideRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,77 +23,71 @@ class PersonalDataFragment : Fragment() {
         fun newInstance() = PersonalDataFragment()
     }
 
-    /*___________________________________ attributes ___________________________________*/
     private lateinit var viewModel: PersonalDataViewModel
     lateinit var v : View
-    private lateinit var firebaseAuth: FirebaseAuth
-    lateinit var userRepository: UserRepository
+    lateinit var guideRepository: GuideRepository
 
-    lateinit var userNombre: EditText
-    lateinit var userApellido: EditText
-    lateinit var userTelefono: EditText
-    lateinit var userPass: EditText
-    lateinit var userPassNew: EditText
-    lateinit var userPassNewConfirm: EditText
+    lateinit var guideNombre: EditText
+    lateinit var guideApellido: EditText
+    lateinit var guideTelefono: EditText
+    lateinit var guidePass: EditText
+    lateinit var guidePassNew: EditText
+    lateinit var guidePassNewConfirm: EditText
     lateinit var buttonGuardarCambios: Button
     lateinit var buttonCambiarPass: Button
-    lateinit var userId: String
-    lateinit var user: User
+    lateinit var guideId: String
+    lateinit var guide: Guide
 
-    /*___________________________________ onCreateView ___________________________________*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_personal_data, container, false)
-        userId = Firebase.auth.currentUser!!.uid
-        userRepository = UserRepository()
-        userNombre= v.findViewById(R.id.userPersonName_change)
-        userApellido= v.findViewById(R.id.userPersonApellido_change)
-        userTelefono= v.findViewById(R.id.userPersonTelefono_change)
-        userPass = v.findViewById(R.id.userPassRegister_change)
-        userPassNew = v.findViewById(R.id.userPassNewRegister_change)
-        userPassNewConfirm = v.findViewById(R.id.userPassNewConfirmRegister_change)
+        guideId = Firebase.auth.currentUser!!.uid
+        guideRepository = GuideRepository()
+        guideNombre= v.findViewById(R.id.userPersonName_change)
+        guideApellido= v.findViewById(R.id.userPersonApellido_change)
+        guideTelefono= v.findViewById(R.id.userPersonTelefono_change)
+        guidePass = v.findViewById(R.id.userPassRegister_change)
+        guidePassNew = v.findViewById(R.id.userPassNewRegister_change)
+        guidePassNewConfirm = v.findViewById(R.id.userPassNewConfirmRegister_change)
         buttonGuardarCambios = v.findViewById(R.id.btnGuardarCambios)
         buttonCambiarPass = v.findViewById(R.id.btnCambiarPass)
         return v
     }
 
-    /*___________________________________ onStart ___________________________________*/
     override fun onStart() {
         super.onStart()
 
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
-            user = userRepository.getUserData(userId)
-            userNombre.setText(user.name)
-            userApellido.setText(user.lastname)
-            userTelefono.setText(user.telefono)
+            guide = guideRepository.getGuideData(guideId)
+            guideNombre.setText(guide.name)
+            guideApellido.setText(guide.lastname)
+            guideTelefono.setText(guide.telefono)
         }
 
         buttonGuardarCambios.setOnClickListener{
-            if(checkChanges(userNombre.text.toString(), userApellido.text.toString(), userTelefono.text.toString())){
-                userRepository.updateUser(userNombre.text.toString(), userApellido.text.toString(), userTelefono.text.toString(), user)
+            if(checkChanges(guideNombre.text.toString(), guideApellido.text.toString(), guideTelefono.text.toString())){
+                guideRepository.updateGuide(guideNombre.text.toString(), guideApellido.text.toString(), guideTelefono.text.toString(), guide)
                 Snackbar.make(v, "Se guardaron los cambios", Snackbar.LENGTH_SHORT).show()
             }
         }
 
         buttonCambiarPass.setOnClickListener {
-            if (checkChangesPass(userPass.text.toString(), userPassNew.text.toString(), userPassNewConfirm.text.toString())){
-                userRepository.updatePassword(userPassNew.text.toString(), user)
+            if (checkChangesPass(guidePass.text.toString(), guidePassNew.text.toString(), guidePassNewConfirm.text.toString())){
+                guideRepository.updatePassword(guidePassNew.text.toString(), guide)
                 Snackbar.make(v, "Se cambió la contraseña", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
 
-    /*___________________________________ onActivityCreated ___________________________________*/
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(PersonalDataViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
-    /*___________________________________ checkChanges ___________________________________*/
     private fun checkChanges(nombre: String, apellido: String, telefono: String): Boolean {
         if (nombre.isNullOrEmpty()) {
             Snackbar.make(v, "El nombre no debe estar vacio", Snackbar.LENGTH_SHORT).show()
@@ -111,26 +104,23 @@ class PersonalDataFragment : Fragment() {
         return true //retorna true si se cumplen todos los requisitos
     }
 
-    /*___________________________________ checkChangesPass ___________________________________*/
-    private fun checkChangesPass(userPass: String, userPassNew: String, userPassNewConfirm: String): Boolean {
-        if (userPass.isNullOrEmpty()) {
+    private fun checkChangesPass(guidePass: String, guidePassNew: String, guidePassNewConfirm: String): Boolean {
+        if (guidePass.isNullOrEmpty()) {
             Snackbar.make(v, "El password no debe estar vacio", Snackbar.LENGTH_SHORT).show()
             return false
         }
-        if(userPassNew.isNullOrEmpty()) {
+        if(guidePassNew.isNullOrEmpty()) {
             Snackbar.make(v, "El password nuevo no debe estar vacio", Snackbar.LENGTH_SHORT).show()
             return false
         }
-        if(userPassNewConfirm.isNullOrEmpty()) {
+        if(guidePassNewConfirm.isNullOrEmpty()) {
             Snackbar.make(v, "El password nuevo no debe estar vacio", Snackbar.LENGTH_SHORT).show()
             return false
         }
-        if(!userPassNew.equals(userPassNewConfirm)) {
+        if(!guidePassNew.equals(guidePassNewConfirm)) {
             Snackbar.make(v, "Error: Las contraseñas no coinciden", Snackbar.LENGTH_SHORT).show()
             return false
         }
         return true //retorna true si se cumplen todos los requisitos
     }
-    //Revisar funcionalidad, el cambio de contraseña parece no funcionar
-
 }

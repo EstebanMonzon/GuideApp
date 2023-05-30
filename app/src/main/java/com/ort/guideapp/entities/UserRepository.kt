@@ -5,12 +5,13 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.ort.guideapp.database.FirebaseSingleton
 import kotlinx.coroutines.tasks.await
 
 class UserRepository {
-    val database = FirebaseSingleton.getInstance().getDatabase()
+    /*val database = FirebaseSingleton.getInstance().getDatabase()
     private var usersCollection = database.collection("usuarios")
     private var favActivityList : MutableList<Activity> = mutableListOf()
 
@@ -24,23 +25,6 @@ class UserRepository {
 
     suspend fun getUserData(userId: String): User {
         return usersCollection.document(userId).get().await().toObject(User::class.java)!!
-    }
-
-    //TODO hacer que traiga todas las actividades favoritas de un usuario
-    //falta la logica para que a partir de activity iud traiga la actividad en si
-    suspend fun getFavouritesActivities(user: User): MutableList<Activity>{
-        try{
-            val data = usersCollection.document(user.uid)
-                .collection("activitiesLikedList")
-                .orderBy("rate", Query.Direction.DESCENDING)
-                .get().await()
-            for (document in data) {
-                favActivityList.add(document.toObject(Activity::class.java))
-            }
-        } catch (e: Exception){
-            Log.d("Actividades favoritas no cargadas: ", favActivityList.size.toString())
-        }
-        return favActivityList
     }
 
     fun crearCuenta( uid: String, nombre: String, apellido: String, telefono:String, email: String, password: String, ) {
@@ -82,24 +66,5 @@ class UserRepository {
             .update(mapOf("profilePhoto" to avatarId))
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
-    }
-
-    //TODO chequear si realmente funciona y guarda el uid de la activity en el usuario activo
-    suspend fun addFavouriteActivity(userId: String, activityId: String){
-        val userRef = usersCollection.document(userId)
-        userRef.get().await().let { document ->
-            val activitiesLikedList = document.get("activitiesLikedList") as? MutableList<String> ?: mutableListOf()
-            activitiesLikedList.add(activityId)
-            userRef.update("activitiesLikedList", activitiesLikedList).await()
-        }
-    }
-
-    suspend fun deleteFavouriteActivity(userId: String, activityId: String){
-        val userRef = usersCollection.document(userId)
-        userRef.get().await().let { document ->
-            val activitiesLikedList = document.get("activitiesLikedList") as? MutableList<String> ?: mutableListOf()
-            activitiesLikedList.remove(activityId)
-            userRef.update("activitiesLikedList", activitiesLikedList).await()
-        }
-    }
+    }*/
 }

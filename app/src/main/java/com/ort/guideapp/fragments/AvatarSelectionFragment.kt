@@ -10,9 +10,11 @@ import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.ort.guideapp.R
-import com.ort.guideapp.entities.User
+import com.ort.guideapp.entities.Guide
+import com.ort.guideapp.entities.GuideRepository
 import com.ort.guideapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,13 +26,12 @@ class AvatarSelectionFragment : Fragment() {
         fun newInstance() = AvatarSelectionFragment()
     }
 
-    /*___________________________________ attributes ___________________________________*/
     lateinit var v : View
     private lateinit var viewModel: AvatarSelectionViewModel
-    lateinit var userRepository: UserRepository
+    lateinit var guideRepository: GuideRepository
     private val user = Firebase.auth.currentUser
     private val userId = user!!.uid
-    lateinit var usuario: User
+    lateinit var guide: Guide
     lateinit var imgAvatar1: ImageView
     lateinit var imgAvatar2: ImageView
     lateinit var imgAvatar3: ImageView
@@ -40,7 +41,6 @@ class AvatarSelectionFragment : Fragment() {
     lateinit var imgAvatar7: ImageView
     lateinit var imgAvatar8: ImageView
 
-    /*___________________________________ onCreateView ___________________________________*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,18 +56,17 @@ class AvatarSelectionFragment : Fragment() {
         imgAvatar7 = v.findViewById(R.id.imga7)
         imgAvatar8 = v.findViewById(R.id.imga8)
 
-        userRepository = UserRepository()
+        guideRepository = GuideRepository()
 
         return v
     }
 
-    /*___________________________________ onStart ___________________________________*/
     override fun onStart() {
         super.onStart()
 
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
-            usuario = userRepository.getUserData(userId)
+            guide = guideRepository.getGuideData(userId)
 
             cargarImagen(imgAvatar1, "a1")
             cargarImagen(imgAvatar2, "a2")
@@ -81,73 +80,65 @@ class AvatarSelectionFragment : Fragment() {
 
         imgAvatar1.setOnClickListener(){
             siguienteActividad()
-            actualizarAvatarEnBD("a1", usuario)
+            actualizarAvatarEnBD("a1", guide)
         }
 
         imgAvatar2.setOnClickListener(){
             siguienteActividad()
-            actualizarAvatarEnBD("a2", usuario)
+            actualizarAvatarEnBD("a2", guide)
         }
 
         imgAvatar3.setOnClickListener(){
             siguienteActividad()
-            actualizarAvatarEnBD("a3", usuario)
+            actualizarAvatarEnBD("a3", guide)
         }
 
         imgAvatar4.setOnClickListener(){
             siguienteActividad()
-            actualizarAvatarEnBD("a4", usuario)
+            actualizarAvatarEnBD("a4", guide)
         }
 
         imgAvatar5.setOnClickListener(){
             siguienteActividad()
-            actualizarAvatarEnBD("a5", usuario)
+            actualizarAvatarEnBD("a5", guide)
         }
 
         imgAvatar6.setOnClickListener(){
             siguienteActividad()
-            actualizarAvatarEnBD("a6", usuario)
+            actualizarAvatarEnBD("a6", guide)
         }
 
         imgAvatar7.setOnClickListener(){
             siguienteActividad()
-            actualizarAvatarEnBD("a7", usuario)
+            actualizarAvatarEnBD("a7", guide)
         }
 
         imgAvatar8.setOnClickListener(){
             siguienteActividad()
-            actualizarAvatarEnBD("a8", usuario)
+            actualizarAvatarEnBD("a8", guide)
         }
     }
 
-    /*___________________________________ getImage ___________________________________*/
     fun getImage(imageName: String?): Int {
         return resources.getIdentifier(imageName, "drawable", getActivity()?.getPackageName() ?: "TourismApp")
     }
 
-    /*___________________________________ cargarImagen ___________________________________*/
-    fun cargarImagen(imagen: ImageView, avatar: String)
-    {
+    fun cargarImagen(imagen: ImageView, avatar: String) {
         Glide.with(v)
             .load(getImage(avatar))
             .override(400,400)
             .into(imagen)
     }
 
-    /*___________________________________ siguienteActividad ___________________________________*/
-    fun siguienteActividad()
-    {
+    fun siguienteActividad() {
         val action = AvatarSelectionFragmentDirections.actionAvatarSelectionFragmentToProfileFragment()
         findNavController().navigate(action)
     }
 
-    /*___________________________________ actualizarAvatarEnBD ___________________________________*/
-    fun actualizarAvatarEnBD(avatarElegido: String, usuario: User)
-    {
-        userRepository.updateAvatar(avatarElegido, usuario)
+    fun actualizarAvatarEnBD(avatarElegido: String, guide: Guide) {
+        guideRepository.updateAvatar(avatarElegido, guide)
     }
 
-    /*___________________________________ onActivityCreated ___________________________________*/
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(AvatarSelectionViewModel::class.java)

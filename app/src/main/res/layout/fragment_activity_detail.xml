@@ -113,14 +113,28 @@
                 android:text="Mi descripcion"
                 android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/btnActivityContact"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="#EE8146"
-                android:text="Contactar Guia"
-                android:textSize="16sp" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnActivityModificar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:backgroundTint="#EE8146"
+                    android:text="Modificar" />
+
+                <Button
+                    android:id="@+id/btnActivityBorrar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="#EE8146"
+                    android:text="Eliminar" />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
