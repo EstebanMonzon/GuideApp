@@ -41,17 +41,6 @@
                     android:text="Activity Title"
                     android:textSize="24sp" />
 
-                <ImageButton
-                    android:id="@+id/btnFavoritoFilled_activity_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:scaleType="fitStart"
-                    android:layout_weight="2"
-                    android:background="@color/sin_color"
-
-                    android:src="@drawable/baseline_heart_filled_20" />
-
                 <TextView
                     android:id="@+id/textRate"
                     android:layout_width="wrap_content"
@@ -76,19 +65,6 @@
                     android:text="City"
                     android:textSize="16sp"
                     tools:ignore="MissingConstraints" />
-
-                <Button
-                    android:id="@+id/btnVerEnMapa"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:background="@color/sin_color"
-                    android:drawableLeft="@drawable/mapa_ver_en_mapa_24"
-                    android:text="Ver en\nmapa"
-                    android:textAllCaps="false"
-                    android:textColor="#191C30"
-                    android:textSize="10sp"
-                    app:iconPadding="0dp" />
 
             </LinearLayout>
 

@@ -17,8 +17,8 @@
             android:id="@+id/action_homeFragment_to_activityDetailFragment"
             app:destination="@id/activityDetailFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_activityEditFragment2"
-            app:destination="@id/activityEditFragment2" />
+            android:id="@+id/action_homeFragment_to_createActivityFragment"
+            app:destination="@id/createActivityFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -46,8 +46,11 @@
             android:name="activity"
             app:argType="com.ort.guideapp.entities.Activity" />
         <action
-            android:id="@+id/action_activityDetailFragment_to_activityEditFragment2"
-            app:destination="@id/activityEditFragment2" />
+            android:id="@+id/action_activityDetailFragment_to_editActivityFragment"
+            app:destination="@id/editActivityFragment" />
+        <action
+            android:id="@+id/action_activityDetailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/avatarSelectionFragment"
@@ -59,8 +62,17 @@
             app:destination="@id/profileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/activityEditFragment2"
-        android:name="com.ort.guideapp.fragments.ActivityEditFragment"
-        android:label="fragment_activity_edit"
-        tools:layout="@layout/fragment_activity_edit" />
+        android:id="@+id/createActivityFragment"
+        android:name="com.ort.guideapp.fragments.CreateActivityFragment"
+        android:label="fragment_create_activity"
+        tools:layout="@layout/fragment_create_activity" />
+    <fragment
+        android:id="@+id/editActivityFragment"
+        android:name="com.ort.guideapp.fragments.EditActivityFragment"
+        android:label="fragment_edit_activity"
+        tools:layout="@layout/fragment_edit_activity" >
+        <argument
+            android:name="activity"
+            app:argType="com.ort.guideapp.entities.Activity" />
+    </fragment>
 </navigation>

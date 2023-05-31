@@ -10,21 +10,6 @@ class ActivityRepository() {
     private var actividadesCollection = database.collection("actividades")
     private var activityList : MutableList<Activity> = mutableListOf()
 
-    suspend fun getHomeActivityList(): MutableList<Activity> {
-        try{
-            val data = actividadesCollection
-                .orderBy("rate", Query.Direction.DESCENDING)
-                .limit(2)
-                .get().await()
-            for(document in data){
-                activityList.add(document.toObject(Activity::class.java))
-            }
-        } catch (e: Exception){
-            Log.d("Actividades no cargadas: ", activityList.size.toString())
-        }
-        return activityList
-    }
-
     suspend fun getAllActivities(): MutableList<Activity> {
         try{
             val data = actividadesCollection
@@ -53,11 +38,29 @@ class ActivityRepository() {
         return activity
     }
 
-    /*fun addActivity(guide:Guide) {
-        var activity = Activity("Caminito", "CABA", "Buenos Aires", "Argentina", "guide" ,
-            "Hola soy la actividad Caminito", "URL Foto", 8)
+    suspend fun deleteActivity(uid: String): Boolean {
+        try{
+            actividadesCollection.document(uid).delete()
+        } catch (e: Exception){
+            Log.d("Actividad no cargada", "actividad no cargada")
+        }
+        return true
+    }
 
-        database.collection("actividades").document().set(activity)
-    }*/
+    suspend fun addActivity(guideUid: String, activity: Activity): String {
+        //crea documento vacio para obtener id
+        val newActivity = actividadesCollection.document()
+        //asocia id a atributo uid
+        activity.uid = newActivity.id
+        //se carga actividad con datos
+        newActivity.set(activity)
+        //retorna activity id para guardar en guia
+        return newActivity.id
+    }
+
+    suspend fun updateActivity(activityUid: String, titulo: String, descripcion: String){
+        actividadesCollection.document(activityUid)
+            .update(mapOf("title" to titulo, "description" to descripcion))
+    }
 
 }
