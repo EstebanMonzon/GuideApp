@@ -2,25 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
+    android:id="@+id/frameLayout36"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="20dp"
     android:orientation="vertical"
-    tools:context=".fragments.ActivityEditFragment">
+    tools:context=".fragments.CreateActivityFragment">
 
     <TextView
         android:id="@+id/txtActivityRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Editar Actividad"
+        android:text="Nueva Actividad"
         android:textAlignment="textStart"
         android:textSize="24sp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         app:cardCornerRadius="10dp">
@@ -142,18 +142,18 @@
                 android:id="@+id/activityLong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="30dp"
                 android:backgroundTint="@color/naranja"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textColor="@color/black" />
 
             <Button
-                android:id="@+id/btnActividadGuardar"
+                android:id="@+id/btnActividadCrear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#EE8146"
-                android:text="Guardar" />
+                android:text="Crear" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

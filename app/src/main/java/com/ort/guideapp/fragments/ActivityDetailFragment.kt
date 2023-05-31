@@ -8,8 +8,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.ort.guideapp.R
+import com.ort.guideapp.entities.ActivityRepository
 import com.ort.guideapp.entities.GuideRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ActivityDetailFragment : Fragment() {
@@ -21,6 +27,7 @@ class ActivityDetailFragment : Fragment() {
     private lateinit var viewModel: ActivityDetailViewModel
     lateinit var v: View
     lateinit var guideRepository: GuideRepository
+    lateinit var activityRepository: ActivityRepository
 
     lateinit var textTitle: TextView
     lateinit var textCity: TextView
@@ -41,6 +48,7 @@ class ActivityDetailFragment : Fragment() {
         btnActivityModificar = v.findViewById(R.id.btnActivityModificar)
         btnActivityBorrar = v.findViewById(R.id.btnActivityBorrar)
         guideRepository = GuideRepository()
+        activityRepository = ActivityRepository()
         return v
     }
 
@@ -56,13 +64,21 @@ class ActivityDetailFragment : Fragment() {
         textDesc.text = description
         textRate.text = rate.toString()
 
-        //TODO logica para modificar una actividad de la lista de actividades
+        //TODO deberia pasar uid de actividad a siguiente fragment
         btnActivityModificar.setOnClickListener(){
-
+            val action = ActivityDetailFragmentDirections.actionActivityDetailFragmentToEditActivityFragment(activity)
+            findNavController().navigate(action)
         }
-        //TODO logica para borrar una actividad de la lista de actividades y de la lista de actividades de un guia
-        btnActivityBorrar.setOnClickListener(){
 
+        btnActivityBorrar.setOnClickListener(){
+            val scope = CoroutineScope(Dispatchers.Main)
+            scope.launch {
+                if(activityRepository.deleteActivity(activity.uid)){
+                    guideRepository.deleteActivityInGuide(activity.uid, activity.guideUid)
+                }
+                val action = ActivityDetailFragmentDirections.actionActivityDetailFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
         }
     }
 

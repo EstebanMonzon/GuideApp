@@ -84,7 +84,7 @@ class HomeFragment : Fragment() {
         }
         //TODO boton que lleve a fragment de ActivityEditFragment
         btnAgregarActividad.setOnClickListener(){
-            val action = HomeFragmentDirections.actionHomeFragmentToActivityEditFragment()
+            val action = HomeFragmentDirections.actionHomeFragmentToCreateActivityFragment()
             findNavController().navigate(action)
         }
     }
