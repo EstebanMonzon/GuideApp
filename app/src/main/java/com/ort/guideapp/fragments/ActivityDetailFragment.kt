@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.ort.guideapp.R
 import com.ort.guideapp.entities.ActivityRepository
@@ -33,6 +35,7 @@ class ActivityDetailFragment : Fragment() {
     lateinit var textCity: TextView
     lateinit var textDesc: TextView
     lateinit var textRate: TextView
+    lateinit var imageActivity: ImageView
     lateinit var btnActivityModificar : Button
     lateinit var btnActivityBorrar : Button
 
@@ -45,6 +48,7 @@ class ActivityDetailFragment : Fragment() {
         textCity = v.findViewById(R.id.txtCity)
         textDesc = v.findViewById(R.id.txtActivityDesc)
         textRate = v.findViewById(R.id.textRate)
+        imageActivity = v.findViewById(R.id.imageView_flag)
         btnActivityModificar = v.findViewById(R.id.btnActivityModificar)
         btnActivityBorrar = v.findViewById(R.id.btnActivityBorrar)
         guideRepository = GuideRepository()
@@ -63,6 +67,11 @@ class ActivityDetailFragment : Fragment() {
         textCity.text = city
         textDesc.text = description
         textRate.text = rate.toString()
+
+        Glide.with(this)
+            .load(activity.activityPhoto)
+            .centerCrop()
+            .into(imageActivity)
 
         //TODO deberia pasar uid de actividad a siguiente fragment
         btnActivityModificar.setOnClickListener(){
