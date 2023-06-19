@@ -80,6 +80,22 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textColor="@color/black" />
+            <!-- Display Pphto -->
+            <TextView
+                android:id="@+id/txtDisplayPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Foto para App Turismo"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPersonDisplayPhoto_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btnGuardarCambios"

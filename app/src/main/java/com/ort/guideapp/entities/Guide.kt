@@ -13,10 +13,11 @@ data class Guide(
     var telefono: String = "",
     var city: String = "",
     var profilePhoto : String = "",
+    var displayPhoto : String = "",
     var rate : Int = 0,
     var activitiesOwnedList: MutableList<String> = mutableListOf()
     ) : Parcelable {
-        constructor() : this("","", "", "","","","","",0, mutableListOf())
+        constructor() : this("","", "","", "","","","","",0, mutableListOf())
         init {
             this.uid = uid
             this.name = name
@@ -26,6 +27,7 @@ data class Guide(
             this.password = password
             this.city = city
             this.profilePhoto = profilePhoto
+            this.displayPhoto = displayPhoto
             this.rate = rate
             this.activitiesOwnedList = activitiesOwnedList
         }
