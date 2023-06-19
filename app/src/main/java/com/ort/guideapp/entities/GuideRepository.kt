@@ -46,7 +46,7 @@ class GuideRepository () {
 
     fun crearCuenta(uid: String, nombre: String, apellido: String, telefono: String, email: String, password: String, city: String) {
         guiasCollection.document(uid!!)
-            .set(Guide(uid, nombre, apellido, email, password, telefono, city, "a1", 7, mutableListOf()))
+            .set(Guide(uid, nombre, apellido, email, password, telefono, city, "a1", "",7, mutableListOf()))
             .addOnSuccessListener { documentReference ->
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${uid}")
             }
@@ -55,9 +55,9 @@ class GuideRepository () {
             }
     }
 
-    fun updateGuide(nombre: String, apellido: String, telefono: String, guide: Guide){
+    fun updateGuide(nombre: String, apellido: String, telefono: String, foto:String, guide: Guide){
         guiasCollection.document(guide.uid)
-            .update(mapOf("name" to nombre, "lastname" to apellido, "telefono" to telefono))
+            .update(mapOf("name" to nombre, "lastname" to apellido, "telefono" to telefono, "displayPhoto" to foto))
             .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
 

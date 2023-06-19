@@ -33,6 +33,7 @@ class PersonalDataFragment : Fragment() {
     lateinit var guidePass: EditText
     lateinit var guidePassNew: EditText
     lateinit var guidePassNewConfirm: EditText
+    lateinit var guideDisplayPhoto: EditText
     lateinit var buttonGuardarCambios: Button
     lateinit var buttonCambiarPass: Button
     lateinit var guideId: String
@@ -48,6 +49,7 @@ class PersonalDataFragment : Fragment() {
         guideNombre= v.findViewById(R.id.userPersonName_change)
         guideApellido= v.findViewById(R.id.userPersonApellido_change)
         guideTelefono= v.findViewById(R.id.userPersonTelefono_change)
+        guideDisplayPhoto = v.findViewById(R.id.userPersonDisplayPhoto_change)
         guidePass = v.findViewById(R.id.userPassRegister_change)
         guidePassNew = v.findViewById(R.id.userPassNewRegister_change)
         guidePassNewConfirm = v.findViewById(R.id.userPassNewConfirmRegister_change)
@@ -65,11 +67,15 @@ class PersonalDataFragment : Fragment() {
             guideNombre.setText(guide.name)
             guideApellido.setText(guide.lastname)
             guideTelefono.setText(guide.telefono)
+            guideDisplayPhoto.setText(guide.displayPhoto)
         }
 
         buttonGuardarCambios.setOnClickListener{
-            if(checkChanges(guideNombre.text.toString(), guideApellido.text.toString(), guideTelefono.text.toString())){
-                guideRepository.updateGuide(guideNombre.text.toString(), guideApellido.text.toString(), guideTelefono.text.toString(), guide)
+            if(checkChanges(guideNombre.text.toString(), guideApellido.text.toString(),
+                    guideTelefono.text.toString(), guideDisplayPhoto.text.toString())){
+
+                guideRepository.updateGuide(guideNombre.text.toString(), guideApellido.text.toString(), guideTelefono.text.toString(),
+                    guideDisplayPhoto.text.toString(), guide)
                 Snackbar.make(v, "Se guardaron los cambios", Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -88,7 +94,7 @@ class PersonalDataFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    private fun checkChanges(nombre: String, apellido: String, telefono: String): Boolean {
+    private fun checkChanges(nombre: String, apellido: String, telefono: String, foto: String): Boolean {
         if (nombre.isNullOrEmpty()) {
             Snackbar.make(v, "El nombre no debe estar vacio", Snackbar.LENGTH_SHORT).show()
             return false
@@ -99,6 +105,11 @@ class PersonalDataFragment : Fragment() {
         }
         if (telefono.isNullOrEmpty()) {
             Snackbar.make(v, "El telefono no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (foto.isNullOrEmpty()) {
+            Snackbar.make(v, "La foto no debe estar vacio", Snackbar.LENGTH_SHORT).show()
             return false
         }
         return true //retorna true si se cumplen todos los requisitos
